@@ -42,7 +42,7 @@ PublicRoute.defaultProps = {
 PublicRoute.propTypes = {
   isAuth: PropType.bool,
   role: PropType.string,
-  component: PropType.func.isRequired,
+  component: PropType.elementType.isRequired,
   path: PropType.string,
   // eslint-disable-next-line react/require-default-props
   rest: PropType.any
