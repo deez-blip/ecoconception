@@ -1,7 +1,11 @@
 import { MessageDisplay } from '@/components/common';
 import { ProductShowcaseGrid } from '@/components/product';
 import { useDocumentTitle, useRecommendedProducts, useScrollTop } from '@/hooks';
-import bannerImg from '@/images/banner-girl-1.png';
+import bannerGirlSmallFallback from '@/images/optimized/banner-girl-1-fallback.jpg';
+import bannerGirlSmallAvif320 from '@/images/optimized/banner-girl-1-320.avif';
+import bannerGirlSmallAvif420 from '@/images/optimized/banner-girl-1-420.avif';
+import bannerGirlSmallWebp320 from '@/images/optimized/banner-girl-1-320.webp';
+import bannerGirlSmallWebp420 from '@/images/optimized/banner-girl-1-420.webp';
 import React from 'react';
 
 const RecommendedProducts = () => {
@@ -23,7 +27,27 @@ const RecommendedProducts = () => {
             <h1>Recommended Products</h1>
           </div>
           <div className="banner-img">
-            <img src={bannerImg} alt="" />
+            <picture>
+              <source
+                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet={`${bannerGirlSmallAvif320} 320w, ${bannerGirlSmallAvif420} 420w`}
+                type="image/avif"
+              />
+              <source
+                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet={`${bannerGirlSmallWebp320} 320w, ${bannerGirlSmallWebp420} 420w`}
+                type="image/webp"
+              />
+              <img
+                alt="Femme avec lunettes dans la bannière des recommandations"
+                decoding="async"
+                fetchPriority="high"
+                height="360"
+                loading="eager"
+                src={bannerGirlSmallFallback}
+                width="420"
+              />
+            </picture>
           </div>
         </div>
         <div className="display">

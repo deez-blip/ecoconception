@@ -1,11 +1,16 @@
-import { ArrowRightOutlined } from '@ant-design/icons';
 import { MessageDisplay } from '@/components/common';
 import { ProductShowcaseGrid } from '@/components/product';
 import { FEATURED_PRODUCTS, RECOMMENDED_PRODUCTS, SHOP } from '@/constants/routes';
 import {
   useDocumentTitle, useFeaturedProducts, useRecommendedProducts, useScrollTop
 } from '@/hooks';
-import bannerImg from '@/images/banner-girl.png';
+import bannerGirlFallback from '@/images/optimized/banner-girl-fallback.jpg';
+import bannerGirlAvif480 from '@/images/optimized/banner-girl-480.avif';
+import bannerGirlAvif768 from '@/images/optimized/banner-girl-768.avif';
+import bannerGirlAvif1279 from '@/images/optimized/banner-girl-1279.avif';
+import bannerGirlWebp480 from '@/images/optimized/banner-girl-480.webp';
+import bannerGirlWebp768 from '@/images/optimized/banner-girl-768.webp';
+import bannerGirlWebp1279 from '@/images/optimized/banner-girl-1279.webp';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -44,10 +49,32 @@ const Home = () => {
             <br />
             <Link to={SHOP} className="button">
               Shop Now &nbsp;
-              <ArrowRightOutlined />
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <div className="banner-img"><img src={bannerImg} alt="" /></div>
+          <div className="banner-img">
+            <picture>
+              <source
+                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet={`${bannerGirlAvif480} 480w, ${bannerGirlAvif768} 768w, ${bannerGirlAvif1279} 1279w`}
+                type="image/avif"
+              />
+              <source
+                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet={`${bannerGirlWebp480} 480w, ${bannerGirlWebp768} 768w, ${bannerGirlWebp1279} 1279w`}
+                type="image/webp"
+              />
+              <img
+                alt="Femme portant des lunettes dans la bannière d'accueil"
+                decoding="async"
+                fetchPriority="high"
+                height="800"
+                loading="eager"
+                src={bannerGirlFallback}
+                width="1279"
+              />
+            </picture>
+          </div>
         </div>
         <div className="display">
           <div className="display-header">
