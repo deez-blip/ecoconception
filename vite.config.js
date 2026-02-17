@@ -42,10 +42,6 @@ export default defineConfig(({ mode }) => ({
             return 'vendor-firebase';
           }
 
-          if (id.includes('/node_modules/@ant-design/icons/')) {
-            return 'vendor-ant-icons';
-          }
-
           if (
             id.includes('/node_modules/react/') ||
             id.includes('/node_modules/react-dom/') ||
