@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import { FilterOutlined, ShoppingOutlined } from '@ant-design/icons';
 import * as ROUTE from '@/constants/routes';
 import logo from '@/images/logo-full.png';
 import React, { useEffect, useRef } from 'react';
@@ -69,7 +68,7 @@ const Navigation = () => {
   return (
     <nav className="navigation" ref={navbar}>
       <div className="logo">
-        <Link onClick={onClickLink} to="/"><img alt="Logo" src={logo} /></Link>
+        <Link onClick={onClickLink} to="/"><img alt="Logo" decoding="async" src={logo} /></Link>
       </div>
       <ul className="navigation-menu-main">
         <li><NavLink activeClassName="navigation-menu-active" exact to={ROUTE.HOME}>Home</NavLink></li>
@@ -81,7 +80,7 @@ const Navigation = () => {
         <FiltersToggle>
           <button className="button-muted button-small" type="button">
             Filters &nbsp;
-            <FilterOutlined />
+            <span aria-hidden="true">▾</span>
           </button>
         </FiltersToggle>
       )}
@@ -98,7 +97,15 @@ const Navigation = () => {
               >
 
                 <Badge count={store.basketLength}>
-                  <ShoppingOutlined style={{ fontSize: '2.4rem' }} />
+                  <svg
+                    aria-hidden="true"
+                    height="24"
+                    style={{ display: 'block' }}
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M7 7a5 5 0 0 1 10 0h2a1 1 0 0 1 1 1l-1 11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 8a1 1 0 0 1 1-1h2Zm2 0h6a3 3 0 0 0-6 0Zm-2.99 2 .82 9H17.2l.82-9H6.01Z" />
+                  </svg>
                 </Badge>
               </button>
             )}

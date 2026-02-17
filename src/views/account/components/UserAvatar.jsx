@@ -59,6 +59,8 @@ const UserNav = () => {
         <img
           alt=""
           className="user-nav-img"
+          decoding="async"
+          loading="lazy"
           src={profile.avatar}
         />
       </div>

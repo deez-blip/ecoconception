@@ -23,7 +23,7 @@ const Footer = () => {
         </strong>
       </div>
       <div className="footer-col-2">
-        <img alt="Footer logo" className="footer-logo" src={logo} />
+        <img alt="Footer logo" className="footer-logo" decoding="async" loading="lazy" src={logo} />
         <h5>
           &copy;&nbsp;
           {new Date().getFullYear()}
