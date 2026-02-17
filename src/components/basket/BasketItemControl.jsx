@@ -1,4 +1,3 @@
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import PropType from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -27,7 +26,7 @@ const BasketItemControl = ({ product }) => {
         onClick={onAddQty}
         type="button"
       >
-        <PlusOutlined style={{ fontSize: '9px' }} />
+        +
       </button>
       <button
         className="button button-border button-border-gray button-small basket-control basket-control-minus"
@@ -35,7 +34,7 @@ const BasketItemControl = ({ product }) => {
         onClick={onMinusQty}
         type="button"
       >
-        <MinusOutlined style={{ fontSize: '9px' }} />
+        -
       </button>
     </div>
   );

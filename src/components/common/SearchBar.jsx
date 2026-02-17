@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-import { SearchOutlined } from '@ant-design/icons';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -67,7 +66,7 @@ const SearchBar = () => {
   return (
     <>
       <div className="searchbar" ref={searchbarRef}>
-        <SearchOutlined className="searchbar-icon" />
+        <span className="searchbar-icon" aria-hidden="true">⌕</span>
         <input
           className="search-input searchbar-input"
           onChange={onSearchChange}

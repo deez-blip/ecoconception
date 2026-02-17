@@ -1,4 +1,3 @@
-import { CloseOutlined } from '@ant-design/icons';
 import { BasketItemControl } from '@/components/basket';
 import { ImageLoader } from '@/components/common';
 import { displayMoney } from '@/helpers/utils';
@@ -62,7 +61,7 @@ const BasketItem = ({ product }) => {
           onClick={onRemoveFromBasket}
           type="button"
         >
-          <CloseOutlined />
+          X
         </button>
       </div>
     </div>
