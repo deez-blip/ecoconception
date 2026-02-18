@@ -1,21 +1,25 @@
-const Pyroscope = require('@pyroscope/nodejs');
-
 if (!global.__pyroscopeInitialized) {
-  const serverAddress = process.env.PYROSCOPE_SERVER_ADDRESS;
-  const basicAuthUser = process.env.PYROSCOPE_BASIC_AUTH_USER;
-  const basicAuthPassword = process.env.PYROSCOPE_BASIC_AUTH_PASSWORD;
+  try {
+    const Pyroscope = require('@pyroscope/nodejs');
+    const serverAddress = process.env.PYROSCOPE_SERVER_ADDRESS;
+    const basicAuthUser = process.env.PYROSCOPE_BASIC_AUTH_USER;
+    const basicAuthPassword = process.env.PYROSCOPE_BASIC_AUTH_PASSWORD;
 
-  if (serverAddress && basicAuthUser && basicAuthPassword) {
-    Pyroscope.init({
-      appName: process.env.PYROSCOPE_APPLICATION_NAME || 'ecommerce-vercel-api',
-      serverAddress,
-      basicAuthUser,
-      basicAuthPassword,
-      flushIntervalMs: 5000,
-      wall: { collectCpuTime: true },
-      tags: { service: 'public-heavy-api' }
-    });
-    Pyroscope.start();
+    if (serverAddress && basicAuthUser && basicAuthPassword) {
+      Pyroscope.init({
+        appName: process.env.PYROSCOPE_APPLICATION_NAME || 'ecommerce-vercel-api',
+        serverAddress,
+        basicAuthUser,
+        basicAuthPassword,
+        flushIntervalMs: 5000,
+        wall: { collectCpuTime: true },
+        tags: { service: 'public-heavy-api' }
+      });
+      Pyroscope.start();
+    }
+  } catch (error) {
+    // Do not fail the API route if the profiler cannot initialize in this runtime.
+    console.warn('Pyroscope disabled:', error && error.message ? error.message : error);
   }
 
   global.__pyroscopeInitialized = true;
