@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@pyroscope/nodejs": "^0.4.5",
     "firebase": "^11.10.0",
     "formik": "^2.2.6",
     "history": "^4.10.0",
