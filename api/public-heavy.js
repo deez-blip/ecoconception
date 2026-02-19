@@ -26,22 +26,32 @@ if (!global.__pyroscopeInitialized) {
 }
 
 const cache = new Map();
+const cacheExpiry = new Map();
+const CACHE_TTL_MS = 60 * 1000;
 
 function heavyCompute(size = 30000, rounds = 80) {
   let arr = Array.from({ length: size }, (_, i) => (i * 17) % 997);
+  let checksum = 0;
 
   for (let r = 0; r < rounds; r += 1) {
-    arr = arr.map((x) => (x * 13 + 7) % 1009).sort((a, b) => a - b);
+    arr = arr.map((x) => (x * 13 + 7 + (r % 11)) % 1009).sort((a, b) => a - b);
+
+    // Intentionally expensive JSON conversion to create a clear "before" baseline.
+    const payload = JSON.stringify(arr.slice(0, 10000));
+    const parsed = JSON.parse(payload);
+    checksum = (checksum + parsed[parsed.length - 1] + r) % 1000003;
   }
 
-  return arr[0];
+  return (arr[0] + checksum) % 1000003;
 }
 
 function optimizedCompute(size = 30000, rounds = 80) {
   let acc = 0;
+  const normalizedRounds = Math.max(1, Math.floor(rounds / 4));
+  const normalizedSize = Math.max(1000, Math.floor(size / 2));
 
-  for (let r = 0; r < rounds; r += 1) {
-    for (let i = 0; i < size; i += 1) {
+  for (let r = 0; r < normalizedRounds; r += 1) {
+    for (let i = 0; i < normalizedSize; i += 1) {
       acc = (acc + ((i * 13 + r) % 1009)) % 1000003;
     }
   }
@@ -54,8 +64,9 @@ module.exports = async (req, res) => {
   const size = Number(req.query.size || 30000);
   const rounds = Number(req.query.rounds || 80);
   const cacheKey = `${mode}:${size}:${rounds}`;
+  const now = Date.now();
 
-  if (mode === 'after' && cache.has(cacheKey)) {
+  if (mode === 'after' && cache.has(cacheKey) && cacheExpiry.get(cacheKey) > now) {
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
     return res.status(200).json({ mode, cached: true, result: cache.get(cacheKey) });
   }
@@ -66,8 +77,12 @@ module.exports = async (req, res) => {
 
   if (mode === 'after') {
     cache.set(cacheKey, result);
+    cacheExpiry.set(cacheKey, now + CACHE_TTL_MS);
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+  } else {
+    // Prevent edge caching for baseline measurements.
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
   }
 
-  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
   return res.status(200).json({ mode, cached: false, result, durationMs });
 };
